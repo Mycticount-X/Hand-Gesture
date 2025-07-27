@@ -18,51 +18,6 @@ cap = cv2.VideoCapture(0)
 def calculate_distance(point1, point2):
     return math.sqrt((point1.x - point2.x)**2 + (point1.y - point2.y)**2)
 
-# Fungsi untuk mendeteksi gesture
-def detect_gesture_V1(landmarks):
-    # Titik-titik referensi
-    thumb_tip = landmarks[4]
-    index_tip = landmarks[8]
-    middle_tip = landmarks[12]
-    ring_tip = landmarks[16]
-    pinky_tip = landmarks[20]
-    wrist = landmarks[0]
-    
-    # Hitung jarak antara ujung jari dan pergelangan tangan
-    thumb_dist = calculate_distance(thumb_tip, wrist)
-    index_dist = calculate_distance(index_tip, wrist)
-    middle_dist = calculate_distance(middle_tip, wrist)
-    ring_dist = calculate_distance(ring_tip, wrist)
-    pinky_dist = calculate_distance(pinky_tip, wrist)
-    
-    # Hitung jarak antara ujung jari dan ujung ibu jari
-    thumb_index_dist = calculate_distance(thumb_tip, index_tip)
-    thumb_middle_dist = calculate_distance(thumb_tip, middle_tip)
-    thumb_ring_dist = calculate_distance(thumb_tip, ring_tip)
-    thumb_pinky_dist = calculate_distance(thumb_tip, pinky_tip)
-    
-    # Deteksi gesture
-    if (index_dist > 0.2 and middle_dist > 0.2 and 
-        ring_dist > 0.2 and pinky_dist > 0.2 and thumb_dist > 0.15):
-        return "OPEN HAND"
-    elif (index_dist < 0.1 and middle_dist < 0.1 and 
-          ring_dist < 0.1 and pinky_dist < 0.1 and thumb_dist > 0.1):
-        return "FIST"
-    elif (thumb_index_dist < 0.05 and middle_dist > 0.15 and 
-          ring_dist > 0.15 and pinky_dist > 0.15):
-        return "OK"
-    elif (index_dist > 0.2 and middle_dist < 0.1 and 
-          ring_dist < 0.1 and pinky_dist < 0.1):
-        return "POINTING"
-    elif (index_dist > 0.2 and middle_dist > 0.2 and 
-          ring_dist < 0.1 and pinky_dist < 0.1):
-        return "VICTORY"
-    elif (index_dist > 0.2 and pinky_dist > 0.2 and 
-          middle_dist < 0.1 and ring_dist < 0.1):
-        return "ROCK"
-    else:
-        return "UNKNOWN"
-
 def detect_gesture(landmarks):
     # Finger tip & pip points
     tip_ids = [4, 8, 12, 16, 20]   # Thumb, Index, Middle, Ring, Pinky
