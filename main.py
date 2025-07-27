@@ -19,7 +19,7 @@ def calculate_distance(point1, point2):
     return math.sqrt((point1.x - point2.x)**2 + (point1.y - point2.y)**2)
 
 # Fungsi untuk mendeteksi gesture
-def detect_gesture(landmarks):
+def detect_gesture_V1(landmarks):
     # Titik-titik referensi
     thumb_tip = landmarks[4]
     index_tip = landmarks[8]
@@ -62,6 +62,49 @@ def detect_gesture(landmarks):
         return "ROCK"
     else:
         return "UNKNOWN"
+
+def detect_gesture(landmarks):
+    # Finger tip & pip points
+    tip_ids = [4, 8, 12, 16, 20]   # Thumb, Index, Middle, Ring, Pinky
+
+    # Finger states (1: up, 0: down)
+    fingers = []
+
+    # Ibu jari (x axis karena mengarah ke samping)
+    if landmarks[tip_ids[0]].x < landmarks[tip_ids[0] - 1].x:
+        fingers.append(1)
+    else:
+        fingers.append(0)
+
+    # Jari lainnya (y axis karena tegak lurus ke atas)
+    for i in range(1, 5):
+        if landmarks[tip_ids[i]].y < landmarks[tip_ids[i] - 2].y:
+            fingers.append(1)
+        else:
+            fingers.append(0)
+
+    # Buat gesture dari pola jari
+    if fingers == [0, 0, 0, 0, 0]:
+        return "FIST"
+    elif fingers == [1, 1, 0, 0, 0]:
+        return "POINTING"
+    elif fingers == [1, 1, 0, 0, 1]:
+        return "ROCK"
+    elif fingers == [1, 0, 0, 0, 0]:
+        return "THUMB UP"
+    elif fingers == [0, 1, 0, 0, 0]:
+        return "ONE"
+    elif fingers == [0, 1, 1, 0, 0]:
+        return "TWO"
+    elif fingers == [0, 1, 1, 1, 0]:
+        return "THREE"
+    elif fingers == [0, 1, 1, 1, 1]:
+        return "FOUR"
+    elif fingers == [1, 1, 1, 1, 1]:
+        return "FIVE"
+    else:
+        return "UNKNOWN"
+
 
 while cap.isOpened():
     ret, frame = cap.read()
