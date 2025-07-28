@@ -6,10 +6,10 @@ import random
 import time
 import mediapipe as mp
 
-class GestureWars:
+class GestureDeck:
     def __init__(self, root):
         self.root = root
-        self.root.title("Gesture Wars - Reign of RPS")
+        self.root.title("Gesture Deck - Reign of RPS")
         self.root.geometry("1000x600")
         
         # Inisialisasi MediaPipe Hands
@@ -409,6 +409,6 @@ class GestureWars:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = GestureWars(root)
+    app = GestureDeck(root)
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
