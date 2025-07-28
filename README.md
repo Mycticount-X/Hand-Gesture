@@ -10,7 +10,7 @@ A Computer Vision project using [MediaPipe](https://mediapi.dev/) to play Rock P
 
 ## Screenshot
 
-![App Screenshot](images/ss_1.png)
+![App Screenshot](Images/ss_1.png)
 
 ## Requirements
 
